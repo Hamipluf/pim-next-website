@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import Link from "next/link";
 import axios from "axios";
-import GetData from "../components/gettingData/index";
 
 export default function Header() {
   const [status, setStatus] = useState("iddle");

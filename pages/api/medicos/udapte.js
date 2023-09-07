@@ -1,4 +1,4 @@
-import { query } from "../../postgresql.config";
+import { query } from "../../../postgresql.config";
 
 async function updateItem(req, res) {
   const { id } = req.params;
