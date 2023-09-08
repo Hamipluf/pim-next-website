@@ -7,19 +7,69 @@ function index() {
     email: undefined,
     telefono: undefined,
   });
+  const [succsesResponse, setSuccsesResponse] = useState();
+  const [errorResponse, setErrorResponse] = useState();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { data } = await axios.post("/api/medicos/create", medicData);
-    data
-      ? console.log("Datos guardados con exito", data)
-      : console.log("ERROR", data);
+    axios
+      .post("/api/medicos/create", medicData)
+      .then((res) => {
+        setSuccsesResponse(
+          `Se registro correctamente medico con matricula N° ${res.data.matricula}`
+        );
+        setTimeout(() => {
+          document.location.assign("http://puertoimagenes.ddns.net:10001");
+        }, 3000);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorResponse(err.response.data.error);
+        setTimeout(() => setErrorResponse(undefined), 3000);
+      });
   };
 
   return (
     <>
       <div className="hero min-h-screen bg-lightpim">
         <div className="hero-content">
-          <div className="max-w-md ">
+          <div className="max-w-md">
+            {errorResponse && (
+              <div className="alert alert-error">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span className="m-auto">{errorResponse}</span>
+              </div>
+            )}
+            {succsesResponse && (
+              <div className="alert alert-success">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="stroke-current shrink-0 h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+                <span className="m-auto">{succsesResponse}</span>
+              </div>
+            )}
             <h1 className="text-5xl mx-5 font-bold">
               Bienvenido a puertoimagenes
             </h1>

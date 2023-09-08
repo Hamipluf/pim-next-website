@@ -1,5 +1,5 @@
 import React from 'react'
-import GetData from '../components/gettingData/index'
+import GetData from '../components/createData/index'
 
 function LoginMedicos() {
   return (
