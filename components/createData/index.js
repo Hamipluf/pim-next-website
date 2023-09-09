@@ -9,23 +9,19 @@ function index() {
   });
   const [succsesResponse, setSuccsesResponse] = useState();
   const [errorResponse, setErrorResponse] = useState();
+  const [toggleVisibility, settoggleVisibility] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     axios
       .post("/api/medicos/create", medicData)
       .then((res) => {
-        setSuccsesResponse(
-          `Se registro correctamente medico con matricula N° ${res.data.matricula}`
-        );
-        setTimeout(() => {
-          document.location.assign("http://puertoimagenes.ddns.net:10001");
-        }, 3000);
+        console.log(res.data);
+        setMedicData(res.data.medic);
+        console.log(medicData);
       })
       .catch((err) => {
         console.log(err);
-        setErrorResponse(err.response.data.error);
-        setTimeout(() => setErrorResponse(undefined), 3000);
       });
   };
 
@@ -74,7 +70,13 @@ function index() {
               Bienvenido a puertoimagenes
             </h1>
             <p className="py-6 mx-5">Porfavor rellene los siguientes campos</p>
-            <form className="form-control" onSubmit={(e) => handleSubmit(e)}>
+            <button onClick={() => settoggleVisibility(!toggleVisibility)}>
+              Toglle
+            </button>
+            <form
+              className="form-control h-96"
+              onSubmit={(e) => handleSubmit(e)}
+            >
               <label className="input-group input-group-vertical m-5">
                 <span>
                   N° Matricula <span className="text-error">*</span>
@@ -82,41 +84,59 @@ function index() {
                 <input
                   type="text"
                   placeholder="Matricula"
+                  required
+                  className="input input-bordered"
                   onChange={(e) =>
                     setMedicData({ ...medicData, matricula: e.target.value })
                   }
-                  required
-                  className="input input-bordered"
                 />
               </label>
-              <label className="input-group input-group-vertical m-5">
-                <span>
-                  Email <span className="text-error">*</span>
-                </span>
-                <input
-                  type="email"
-                  placeholder="medico@example.com"
-                  onChange={(e) =>
-                    setMedicData({ ...medicData, email: e.target.value })
-                  }
-                  required
-                  className="input input-bordered"
-                />
-              </label>
-              <label className="input-group input-group-vertical m-5">
-                <span>
-                  Telefono <span className="text-error">*</span>
-                </span>
-                <input
-                  type="tel"
-                  placeholder="+54 11 15474882"
-                  onChange={(e) =>
-                    setMedicData({ ...medicData, telefono: e.target.value })
-                  }
-                  required
-                  className="input input-bordered"
-                />
-              </label>
+              {/* Si no encuentra al medico guarado en la DB se muestran los campos para recoleccion de datos */}
+              {toggleVisibility && (
+                <>
+                  <label className={`input-group input-group-vertical m-5 `}>
+                    <span>
+                      Email <span className="text-error">*</span>
+                    </span>
+                    <input
+                      type="email"
+                      placeholder="medico@example.com"
+                      className={`input input-bordered `}
+                      onChange={(e) =>
+                        setMedicData({ ...medicData, email: e.target.value })
+                      }
+                    />
+                  </label>
+                  <label className={`input-group input-group-vertical m-5 `}>
+                    <span>
+                      Telefono <span className="text-error">*</span>
+                    </span>
+                    <input
+                      type="tel"
+                      placeholder="+54 11 15474882"
+                      className={`input input-bordered `}
+                      onChange={(e) =>
+                        setMedicData({ ...medicData, telefono: e.target.value })
+                      }
+                    />
+                  </label>
+                </>
+              )}
+              {medicData && (
+                <>
+                  <h2 className="text-xl font-bold text-mainpim">
+                    Matricula:{" "}
+                    <span className="text-[#000]">{medicData.matricula}</span>
+                  </h2>
+                  <h3 className="text-lg font-semibold text-mainpim">
+                    Email: <span className="text-[#000]">{medicData.email}</span>
+                  </h3>
+                  <h3 className="text-lg font-semibold text-mainpim">
+                    Telefono:{" "}
+                    <span className="text-[#000]">{medicData.telefono}</span>
+                  </h3>
+                </>
+              )}
               <button type="submit" className="btn bg-[#6daad1] w-full m-5">
                 Send
               </button>
