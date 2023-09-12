@@ -230,7 +230,7 @@ export default function Header() {
           <picture className="cursor-pointer inline-block bg-logoSmall w-[100px] h-[60px] bg-contain bg-no-repeat sm:bg-logoLarge sm:w-[364.5px] sm:h-[56.7px]" />
         </Link>
         {/* hamburguer */}
-        <div className="flex-none lg:hidden">
+        <div className="flex-none lg:hidden ">
           <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -275,7 +275,7 @@ export default function Header() {
             </li>
             <li className="flex items-center lg:w-[106px] xl:w-[136px] text-[14px] font-bold leading-none uppercase rounded-lg lg:min-h-14 btn bg-mainpim border-none btn-block">
               <a href="/login-medicos" rel="noreferrer">
-                Acceso Profecionales
+                Acceso Profesionales
               </a>
               {/* <a href="http://puertoimagenes.ddns.net:10001" target="_blank" rel="noreferrer">
                 Acceso Profesionales
